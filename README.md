@@ -147,9 +147,3 @@ If you'd like, I can implement this change for you — tell me whether you want 
 - Use the router's admin UI to confirm device IP/MAC if needed — that's the router's view, not your host's ARP.
 - For more complete discovery on local networks, `nmap -sn` is recommended because it uses ARP pings for local Ethernet networks and is robust.
 
-## License
-
-This repository is provided as-is. Check repository metadata or contact the author for license details.
-
----
-Generated README by the project helper. If you want me to also add an automatic ping-sweep into the tool, say so and I will implement and test it.
