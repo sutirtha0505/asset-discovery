@@ -26,28 +26,26 @@ If a device is shown in the router UI but not on your host, it's usually because
 
 Run a ping sweep to force your machine to send ARP requests and populate its ARP table. After the sweep, run the program again to see newly discovered entries.
 
-Linux (bash):
+POSIX / macOS (bash / zsh) — quick parallel background sweep:
 ```bash
-for i in {1..254}; do
-  ping -c 1 -W 1 192.168.0.$i >/dev/null 2>&1 &
+for i in $(seq 1 254); do
+  ping -c 1 -W 1 192.168.0.$i >/dev/null 2>&1
 done
-wait
 arp -a
 ```
 
-macOS (bash / zsh):
+Linux (bash) — parallel sweep with a short per-host timeout (uses `-W`):
 ```bash
-# macOS ping timeouts differ; a plain quick ping per host works fine
-for i in {1..254}; do
-  ping -c 1 192.168.0.$i >/dev/null 2>&1 &
+for i in $(seq 1 254); do
+  ping -c 1 -W 1 192.168.0.$i >/dev/null 2>&1 &
 done
 wait
-arp -a
+ip neigh || arp -n
 ```
 
 Windows (PowerShell):
 ```powershell
-1..254 | ForEach-Object { ping -n 1 -w 100 192.168.0.$_ > $null }
+1..254 | ForEach-Object { Test-Connection -Count 1 -TimeoutSeconds 1 -ComputerName ("192.168.0.$_") > $null }
 arp -a
 ```
 
